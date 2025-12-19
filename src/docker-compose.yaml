@@ -7,12 +7,25 @@ services:
     depends_on:
       - vc_db
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      AC_PRIVATE_KEY: ${AC_PRIVATE_KEY}
-      AC_PUBLIC_KEY: ${AC_PUBLIC_KEY}
+      DATABASE_URL: ${DATABASE_URL_VC}
 
     volumes:
       - "./vc/alembic/versions:/app/alembic/versions"
+    restart: unless-stopped
+
+  ac:
+    build: ac
+    container_name: ac_service
+    ports:
+      - "8001:8000"
+    depends_on:
+      - ac_db
+    environment:
+      DATABASE_URL: ${DATABASE_URL_AC}
+      ADMIN_API_KEY:  ${ADMIN_API_KEY}
+
+    volumes:
+      - "./ac/alembic/versions:/app/alembic/versions"
     restart: unless-stopped
 
   ac_db:
