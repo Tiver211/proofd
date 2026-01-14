@@ -1,0 +1,23 @@
+[project]
+name = "proofd"
+version = "0.1.0"
+dependencies = [
+  "click",
+  "rich",
+  "click-man",
+  "requests",
+  "cryptography>=42.0.0"
+]
+
+[project.scripts]
+proofd = "proofd.cli:app"
+
+[tool.setuptools]
+packages = ["proofd"]
+
+[tool.setuptools.data-files]
+"share/man/man1" = ["man/proofd.1"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

@@ -12,3 +12,7 @@ class InvalidChallenge(DomainError):
 
 class KeyExpired(DomainError):
     pass
+
+
+class DocumentRevoked(DomainError):
+    pass

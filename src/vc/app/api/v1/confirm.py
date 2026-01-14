@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException, Header
 from pydantic import BaseModel, Field
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from app.config import Config
 from ..deps import get_session
 from ...services.confirm_service import ConfirmDocumentService
 
@@ -49,8 +50,11 @@ class ConfirmDocumentResponse(BaseModel):
 )
 async def confirm_document(
     payload: ConfirmDocumentRequest,
-    session: AsyncSession = Depends(get_session)
-):
+    x_api_key: str = Header(),
+    session: AsyncSession = Depends(get_session)):
+    if not Config.ADMIN_API_KEY or x_api_key != Config.ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid API key")
+
     service = ConfirmDocumentService(session)
 
     result = await service.confirm(

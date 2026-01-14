@@ -6,7 +6,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ..deps import get_session
 from ...services.challenge_service import ChallengeVCService
-from ...domain.errors import DocumentNotConfirmed
+from ...domain.errors import DocumentNotConfirmed, DocumentRevoked
 
 router = APIRouter(
     prefix="/challenge",
@@ -65,6 +65,11 @@ async def challenge_vc(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Document not confirmed by this VC"
+        )
+    except DocumentRevoked:
+        raise HTTPException(
+            status_code=status.HTTP_410_GONE,
+            detail="Document has been revoked"
         )
 
     return ChallengeResponse(

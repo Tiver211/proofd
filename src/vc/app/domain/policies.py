@@ -38,26 +38,17 @@ class VCChallengePolicy:
             raise KeyExpired("VC key expired")
 
         payload = (
-            document_hash.value +
-            document_hash.algo +
-            nonce.value
-        ).encode()
-        print(payload, flush=True)
+            f"{document_hash.value}:{document_hash.algo}:{nonce.value}"
+        ).encode("utf-8")
 
-        pem_bytes = base64.b64decode(vc_key.private_key_pem)
+        pem_bytes = vc_key.private_key_pem.encode("utf-8")
 
         private_key = serialization.load_pem_private_key(
             pem_bytes,
             password=None
         )
 
-        signature = private_key.sign(
-            payload,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=hashes.SHA256().digest_size,  # ← 32 байта
-            ),
-            hashes.SHA256(),
-        )
+
+        signature = private_key.sign(payload)
 
         return signature

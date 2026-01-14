@@ -14,7 +14,7 @@ from .format import (
 )
 
 from .constraints import FORMAT_VERSION, SUPPORTED_HASHES
-
+from .verify import verify_document
 from .logging import setup_logging
 from .hashing import calc_hash
 import logging
@@ -108,25 +108,25 @@ def init(ctx: Ctx, file, alg, out, force, verifiers):
     ))
 
 
-# ==========
-# VERIFY
-# ==========
 @app.command()
-@click.argument("file", type=click.Path(exists=True))
-@click.argument("verify_file", type=click.Path(exists=True))
-@click.option("--strict", is_flag=True, help="Fail on any mismatch")
-@click.option("--show-hash", is_flag=True, help="Show calculated hash")
-@click.option("--explain", is_flag=True, help="Verbose explanation")
+@click.argument("document", type=click.Path(exists=True, dir_okay=False))
+@click.argument("verify_file", type=click.Path(exists=True, dir_okay=False))
+@click.option("--ac", required=True, help="Authority Center base URL")
+@click.option("--timeout", default=5, show_default=True)
 @pass_ctx
-def verify(ctx: Ctx, file, verify_file, strict, show_hash, explain):
-    """Verify document against .verify"""
-    console.print(Panel.fit(
-        f"[bold cyan]Verifying document[/bold cyan]\n"
-        f"File: {file}\n"
-        f"Proof: {verify_file}",
-        title="proofd verify"
-    ))
-    console.print("[green]✔ VALID (mock)[/green]")
+def verify(ctx: Ctx, document, verify_file, ac, timeout):
+    """
+    Verify document using AC-resolved Verification Centers
+    """
+    from .verify import verify_document
+
+    verify_document(
+        document_path=document,
+        verify_path=verify_file,
+        ac_url=ac,
+        timeout=timeout,
+    )
+
 
 
 # ==========

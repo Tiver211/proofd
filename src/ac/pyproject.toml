@@ -11,5 +11,6 @@ dependencies = [
     "uvicorn",
     "alembic",
     "asyncpg",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "timedelta>=2020.12.3",
 ]

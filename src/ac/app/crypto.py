@@ -34,6 +34,22 @@ def fingerprint(public_key_b64: str) -> str:
         raise InvalidBase64Key()
     return hashlib.sha256(decoded).hexdigest()
 
+def extract_public_key_from_private(private_key_b64: str) -> str:
+    """Extract public key from private key in base64 format."""
+    try:
+        private_key = serialization.load_pem_private_key(
+            base64.b64decode(private_key_b64),
+            password=None
+        )
+        public_key = private_key.public_key()
+        public_bytes = public_key.public_bytes(
+            serialization.Encoding.PEM,
+            serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        return base64.b64encode(public_bytes).decode()
+    except (binascii.Error, ValueError, TypeError) as e:
+        raise InvalidBase64Key() from e
+
 def sign(private_key_b64: str, payload: bytes) -> str:
     private_key = serialization.load_pem_private_key(
         base64.b64decode(private_key_b64),

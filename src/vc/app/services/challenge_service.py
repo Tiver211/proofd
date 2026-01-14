@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ..domain.value_objects import DocumentHash, ChallengeNonce
 from ..domain.entities import VCKey
-from ..domain.errors import DocumentNotConfirmed
+from ..domain.errors import DocumentNotConfirmed, DocumentRevoked
 
 from ..domain.policies import VCChallengePolicy
 from ..infra.repositories import (
@@ -30,6 +30,9 @@ class ChallengeVCService:
         confirmation = await self.confirmations.get_by_hash(document_hash)
         if not confirmation:
             raise DocumentNotConfirmed("Document not confirmed")
+        
+        if confirmation.revoked:
+            raise DocumentRevoked("Document has been revoked")
 
         now = datetime.utcnow()
 

@@ -2,6 +2,47 @@ from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives import serialization
 import base64
 
+
+class InvalidKeyError(Exception):
+    pass
+
+
+def generate_ed25519_keypair() -> tuple[str, str]:
+    """Generate Ed25519 keypair and return as PEM strings."""
+    private_key = ed25519.Ed25519PrivateKey.generate()
+    public_key = private_key.public_key()
+
+    private_pem = private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption()
+    ).decode('utf-8')
+
+    public_pem = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ).decode('utf-8')
+
+    return private_pem, public_pem
+
+
+def extract_public_key_from_private(private_key_pem: str) -> str:
+    """Extract public key from private key in PEM format."""
+    try:
+        private_key = serialization.load_pem_private_key(
+            private_key_pem.encode(),
+            password=None
+        )
+        public_key = private_key.public_key()
+        public_pem = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        ).decode('utf-8')
+        return public_pem
+    except (ValueError, TypeError, Exception) as e:
+        raise InvalidKeyError(f"Invalid private key format: {e}") from e
+
+
 def load_private_key(pem: str) -> ed25519.Ed25519PrivateKey:
     return serialization.load_pem_private_key(
         pem.encode(),

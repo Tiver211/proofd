@@ -2,12 +2,14 @@ services:
   vc:
     build: vc
     container_name: vc_service
+    image: registry.tiver212.ru/vc:0.1.0
     ports:
       - "8000:8000"
     depends_on:
       - vc_db
     environment:
       DATABASE_URL: ${DATABASE_URL_VC}
+      ADMIN_API_KEY:  ${ADMIN_API_KEY}
 
     volumes:
       - "./vc/alembic/versions:/app/alembic/versions"
@@ -16,6 +18,7 @@ services:
   ac:
     build: ac
     container_name: ac_service
+    image: registry.tiver212.ru/ac:0.1.0
     ports:
       - "8001:8000"
     depends_on:

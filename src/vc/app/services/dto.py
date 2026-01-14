@@ -14,3 +14,10 @@ class ChallengeResponseDTO:
     document_hash: str
     response: bytes
     valid_until: datetime
+
+
+@dataclass
+class RevokeDocumentResultDTO:
+    document_hash: str
+    hash_algo: str
+    revoked_at: datetime

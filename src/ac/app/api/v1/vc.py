@@ -1,9 +1,9 @@
 import os
 from fastapi import APIRouter, Depends, HTTPException, Header
 from app.db import get_session
-from app.schemas import VCRegisterRequest, VCResponse
+from app.schemas import VCRegisterRequest, VCResponse, VCReworkRequest
 from app.crud.vc import get_vc_by_name, list_active_vc
-from app.services.ac_service import register_vc
+from app.services.ac_service import register_vc, rework_vc
 
 router = APIRouter(prefix="/vc", tags=["vc"])
 
@@ -18,6 +18,18 @@ async def register(
     if x_api_key != ADMIN_API_KEY:
         raise HTTPException(status_code=403)
     return await register_vc(session, data)
+
+@router.post("/{name}/rework", response_model=VCResponse)
+async def rework(
+    name: str,
+    data: VCReworkRequest,
+    x_api_key: str = Header(),
+    session = Depends(get_session)
+):
+    if x_api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403)
+
+    return await rework_vc(session, data, name)
 
 @router.get("", response_model=list[VCResponse])
 async def list_vc(session = Depends(get_session)):
