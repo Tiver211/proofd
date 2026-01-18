@@ -1,7 +1,7 @@
 man/proofd.1                 usr/share/man/man1/
 man/proofd-*.1               usr/share/man/man1/
-debian/proofd.bash   usr/share/bash-completion/completions/proofd
-debian/_proofd       usr/share/zsh/vendor-completions/_proofd
-debian/proofd.fish   usr/share/fish/vendor_completions.d/proofd.fish
+debian/proofd   usr/share/bash-completion/completions/
+debian/_proofd       usr/share/zsh/vendor-completions/
+debian/proofd.fish   usr/share/fish/vendor_completions.d/
 proofd usr/lib/python3/dist-packages/
 bin/proofd usr/bin
