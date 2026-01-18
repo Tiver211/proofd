@@ -4,3 +4,4 @@ debian/proofd.bash   usr/share/bash-completion/completions/proofd
 debian/_proofd       usr/share/zsh/vendor-completions/_proofd
 debian/proofd.fish   usr/share/fish/vendor_completions.d/proofd.fish
 proofd usr/lib/python3/dist-packages/
+debian/proofd usr/bin/proofd
