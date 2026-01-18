@@ -1,0 +1,19 @@
+Package: proofd
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Tiver
+Homepage: https://github.com/Tiver211/proofd
+Depends:
+ python3 (>= 3.10),
+ python3-click,
+ python3-rich,
+ python3-requests,
+ python3-cryptography (>= 42.0.0),
+ python3-tomli-w
+Suggests: bash-completion, zsh, fish
+Description: Distributed proof verification CLI
+ proofd is a CLI tool for creating and verifying distributed cryptographic
+ proofs of document authenticity using Authority Centers (AC) and
+ Verification Centers (VC).

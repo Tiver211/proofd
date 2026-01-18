@@ -1,0 +1,63 @@
+.TH "PROOFD" "1" "2026-01-18" "0.1.0" "proofd Manual"
+.SH NAME
+proofd \- proofd — distributed proof verification CLI
+.SH SYNOPSIS
+.B proofd
+[OPTIONS] COMMAND [ARGS]...
+.SH DESCRIPTION
+.PP
+proofd — distributed proof verification CLI
+.PP
+.SH OPTIONS
+.TP
+\fB\-d,\fP \-\-debug
+Enable debug output
+.TP
+\fB\-q,\fP \-\-quiet
+Suppress non-critical output
+.TP
+\fB\-c,\fP \-\-config_path PATH
+Path to config file
+.TP
+\fB\-\-no\-color\fP
+Disable colored output
+.TP
+\fB\-v,\fP \-\-version
+Show the version and exit.
+.SH COMMANDS
+.PP
+\fBinit\fP
+  Creating user config file
+  See \fBproofd-init(1)\fP for full documentation on the \fBinit\fP command.
+.PP
+\fBcreate\fP
+  Create .verify file for document
+  See \fBproofd-create(1)\fP for full documentation on the \fBcreate\fP command.
+.PP
+\fBverify\fP
+  Verify document using AC-resolved...
+  See \fBproofd-verify(1)\fP for full documentation on the \fBverify\fP command.
+.PP
+\fBinspect\fP
+  Inspect .verify file
+  See \fBproofd-inspect(1)\fP for full documentation on the \fBinspect\fP command.
+.PP
+\fBvalidate\fP
+  Validate .verify structure
+  See \fBproofd-validate(1)\fP for full documentation on the \fBvalidate\fP command.
+.PP
+\fBhash\fP
+  Calculate file hash
+  See \fBproofd-hash(1)\fP for full documentation on the \fBhash\fP command.
+.PP
+\fBverifier\fP
+  Manage verifiers
+  See \fBproofd-verifier(1)\fP for full documentation on the \fBverifier\fP command.
+.PP
+\fBformat\fP
+  Format operations
+  See \fBproofd-format(1)\fP for full documentation on the \fBformat\fP command.
+.PP
+\fBdoctor\fP
+  Environment diagnostics
+  See \fBproofd-doctor(1)\fP for full documentation on the \fBdoctor\fP command.

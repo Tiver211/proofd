@@ -40,3 +40,6 @@ class ACKeyResponse(BaseModel):
     valid_from: datetime
     valid_to: datetime
     active: bool
+
+class ACPublicKeyResponse(BaseModel):
+    public_key_b64: str

@@ -1,12 +1,12 @@
 [project]
 name = "proofd"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
   "click",
   "rich",
-  "click-man",
   "requests",
-  "cryptography>=42.0.0"
+  "cryptography>=42.0.0",
+  "tomli-w"
 ]
 
 [project.scripts]
@@ -21,3 +21,8 @@ packages = ["proofd"]
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = [
+  "click-man",
+]

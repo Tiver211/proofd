@@ -1,8 +1,8 @@
 import os
 from fastapi import APIRouter, Depends, HTTPException, Header
 from app.db import get_session
-from app.schemas import ACKeyUpdateRequest, ACKeyResponse
-from app.crud.ac_keys import update_ac_key
+from app.schemas import ACKeyUpdateRequest, ACKeyResponse, ACPublicKeyResponse
+from app.crud.ac_keys import update_ac_key, get_active_ac_key
 from app.crypto import InvalidBase64Key
 
 router = APIRouter(prefix="/ac", tags=["ac"])
@@ -47,3 +47,9 @@ async def update_private_key(
         valid_to=key.valid_to,
         active=key.active
     )
+
+@router.get("/public-key", response_model=ACPublicKeyResponse)
+async def get_public_key(session = Depends(get_session)):
+    key = await get_active_ac_key(session=session)
+    public_key = key.public_key_b64
+    return ACPublicKeyResponse(public_key_b64=public_key)

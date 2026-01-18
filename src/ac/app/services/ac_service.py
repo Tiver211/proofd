@@ -70,8 +70,8 @@ async def rework_vc(session, data: VCReworkRequest, vc_name):
     payload = canonical_payload({
         "name": vc.name,
         "fingerprint": fp,
-        "valid_from": data.valid_from.isoformat(),
-        "valid_to": data.valid_to.isoformat()
+        "valid_from": data.valid_from.isoformat().replace("+00:00", "Z"),
+        "valid_to": data.valid_to.isoformat().replace("+00:00", "Z")
     })
 
     signature = sign(ac_key.private_key_b64, payload)
